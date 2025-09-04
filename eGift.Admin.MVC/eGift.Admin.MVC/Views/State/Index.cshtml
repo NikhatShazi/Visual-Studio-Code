@@ -1,0 +1,70 @@
+﻿@model eGift.Admin.MVC.Models.ListViewModels.StateListViewModel
+
+@{
+    ViewData["Title"] = "State List";
+    var index = 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class=" btn btn-success">Create State</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateModel.StateCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateModel.StateName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateModel.CountryName)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model?.StateList?.Count > 0)
+        {
+            foreach (var item in Model.StateList)
+            {
+                index++;
+                <tr>
+                    <td>
+                        @index
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StateCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StateName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CountryName)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new {id=item.ID},new {@class = "btn btn-success"}) |
+                        @Html.ActionLink("Details", "Details", new {id=item.ID},new {@class = "btn btn-primary"}) |
+                        @Html.ActionLink("Delete", "Delete", new {id=item.ID},new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">
+                    <span>No data found.</span>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>

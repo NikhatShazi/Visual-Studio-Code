@@ -1,0 +1,111 @@
+﻿@model eGift.Admin.MVC.Models.ListViewModels.ProductListViewModel
+
+@{
+    ViewData["Title"] = "Prodects List";
+    var index = 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class=" btn btn-success">Create Prodect</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModel.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModel.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModel.SubCategoryId)
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.QuantityPerUnit)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModel.UnitPrice)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModel.ProductAvailable)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModel.ProductImagePath)
+            </th>
+
+            <th>Inventory</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model?.ProductList?.Count() > 0)
+        {
+            @foreach (var item in Model.ProductList)
+            {
+                index++;
+                <tr>
+                    <td>
+                        @index
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubCategoryName)
+                    </td>
+                    @* <td>
+            @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+            </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @if (item.ProductAvailable > 0)
+                        {
+                            <span class=" badge bg-success text-white">Available</span>
+                        }
+                        else
+                        {
+                            <span class=" badge bg-danger text-white">Not Available</span>
+
+                        }
+                    </td>
+
+                    <td>
+                        @if (item.ProductImageData != null)
+                        {
+                            <img id="product-image-preview" src="data:image/jpeg;base64,@Convert.ToBase64String(item.ProductImageData)" alt="" class="img-thumbnail" width="45" height="70" />
+                        }
+                        else
+                        {
+                            <img id="product-image-preview" src="~/Images/default-file.png" alt="" class="img-thumbnail" width="45" height="70" />
+                        }
+                    </td>
+
+                    <td>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#product-quantity-modal" onclick="AddProductQuantity(@item.ID)">
+                            Add
+                        </button>
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new {id=item.ID}, new {@class = "btn btn-success"}) |
+                        @Html.ActionLink("Details", "Details", new {id=item.ID}, new {@class = "btn btn-primary"}) |
+                        @Html.ActionLink("Delete", "Delete", new {id=item.ID}, new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

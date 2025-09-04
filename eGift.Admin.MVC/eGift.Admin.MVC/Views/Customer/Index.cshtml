@@ -1,0 +1,75 @@
+﻿@model eGift.Admin.MVC.Models.ListViewModels.CustomerListViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    var index = 0;
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Add Customer </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerModel.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerModel.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerModel.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerModel.Mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerModel.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerModel.ProfileImagePath)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model?.CustomerList?.Count() > 0)
+        {
+            foreach (var item in Model.CustomerList)
+            {
+                index++;
+                <tr>
+                    <td>
+                        @index
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProfileImagePath)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new {id=item.ID},new {@class = "btn btn-success"}) |
+                        @Html.ActionLink("Details", "Details", new {id=item.ID},new {@class = "btn btn-primary"}) |
+                        @Html.ActionLink("Delete", "Delete", new {id=item.ID},new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,125 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+@{
+    var userName = @Accessor.HttpContext.Session.GetString("UserName");
+    var currentDate = Accessor.HttpContext.Session.GetString("LoginDate");
+    var lastDate = Accessor.HttpContext.Session.GetString("LastLoginDate");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @ViewData["ApplicationName"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@ViewData["ApplicationName"]</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1 flex-sm-row-reverse">
+                        <li class="nav-item font-weight-bolder">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                        @if (!string.IsNullOrWhiteSpace(userName))
+                        {
+                            <li class="nav-item ">
+                                <span class="nav-link">Welcome, <b>@userName</b>!</span>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Country" asp-action="Index">Country</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="State" asp-action="Index">State</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="City" asp-action="Index">City</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Address" asp-action="Index">Address</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="SubCategory" asp-action="Index">SubCategory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Order</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            <div class="row">
+                <div class=" col-4">
+                    &copy; 2023 - @ViewData["ApplicationName"] - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+
+
+                <div class="col-md-5 text-right pr-0">
+
+                    @if (!string.IsNullOrWhiteSpace(currentDate))
+                    {
+                        <span class="nav-item">
+                            <span>Login: <b>@Convert.ToDateTime(currentDate).ToString("dd-MM-yyyy hh:mm:tt")</b> | </span>
+                        </span>
+                    }
+
+                </div>
+
+                <div class="col-md-3 text-right">
+
+                    @if (!string.IsNullOrWhiteSpace(lastDate))
+                    {
+                        <span class="nav-item">
+                            <span>Last Login: <b>@Convert.ToDateTime(lastDate).ToString("dd-MM-yyyy hh:mm:tt")</b> | </span>
+                        </span>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

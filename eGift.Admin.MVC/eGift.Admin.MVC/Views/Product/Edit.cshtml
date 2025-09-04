@@ -1,0 +1,328 @@
+﻿@model eGift.Admin.MVC.Models.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="IsDeleted" />
+            <input type="hidden" asp-for="CreatedBy" />
+            <input type="hidden" asp-for="CreatedDate" />
+            <input type="hidden" asp-for="UpdatedBy" />
+            <input type="hidden" asp-for="UpdatedDate" />
+            <input type="hidden" id="IsEdit" value="true" />
+            <input type="hidden" id="Category" value="@Model.CategoryId" />
+            <input type="hidden" id="SubCategory" value="@Model.SubCategoryId" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <Select asp-for="CategoryId" asp-items="@Model.CategoryList" class="form-control">
+                    <option>
+                        Select
+                    </option>
+                </Select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubCategoryId" class="control-label"></label>
+                <Select asp-for="SubCategoryId" asp-items="@Model.SubCategoryList" class="form-control">
+                    <option>
+                        Select
+                    </option>
+                </Select>
+                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="QuantityPerUnit" class="control-label"></label>
+                <input asp-for="QuantityPerUnit" class="form-control" />
+                <span asp-validation-for="QuantityPerUnit" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="UnitPrice" class="control-label"></label>
+                <input asp-for="UnitPrice" class="form-control" />
+                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SizeID" class="control-label"></label>
+                <Select asp-for="SizeID" asp-items="@Model.SizeList" class="form-control">
+                    <option>
+                        Select
+                    </option>
+                </Select>
+                <span asp-validation-for="SizeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+            <label asp-for="UnitInStore" class="control-label"></label>
+            <input asp-for="UnitInStore" class="form-control" />
+            <span asp-validation-for="UnitInStore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="UnitInOrder" class="control-label"></label>
+            <input asp-for="UnitInOrder" class="form-control" />
+            <span asp-validation-for="UnitInOrder" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+            <label asp-for="ProductAvailable" class="control-label"></label>
+            <input asp-for="ProductAvailable" class="form-control" />
+            <span asp-validation-for="ProductAvailable" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="ShortDescription" class="control-label"></label>
+                <input asp-for="ShortDescription" class="form-control" />
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LongDescription" class="control-label"></label>
+                <input asp-for="LongDescription" class="form-control" />
+                <span asp-validation-for="LongDescription" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="PicturePath1" class="control-label"></label>
+            <input asp-for="PicturePath1" class="form-control" />
+            <span asp-validation-for="PicturePath1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="PicturePath2" class="control-label"></label>
+            <input asp-for="PicturePath2" class="form-control" />
+            <span asp-validation-for="PicturePath2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="PicturePath3" class="control-label"></label>
+            <input asp-for="PicturePath3" class="form-control" />
+            <span asp-validation-for="PicturePath3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="PicturePath4" class="control-label"></label>
+            <input asp-for="PicturePath4" class="form-control" />
+            <span asp-validation-for="PicturePath4" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="PictureData1" class="control-label"></label>
+            <input asp-for="PictureData1" class="form-control" />
+            <span asp-validation-for="PictureData1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="PictureData2" class="control-label"></label>
+            <input asp-for="PictureData2" class="form-control" />
+            <span asp-validation-for="PictureData2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="PictureData3" class="control-label"></label>
+            <input asp-for="PictureData3" class="form-control" />
+            <span asp-validation-for="PictureData3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="PictureData4" class="control-label"></label>
+            <input asp-for="PictureData4" class="form-control" />
+            <span asp-validation-for="PictureData4" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="ProductImagePath" class="control-label"></label>
+            <input asp-for="ProductImagePath" class="form-control" />
+            <span asp-validation-for="ProductImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="ProductImageData" class="control-label"></label>
+            <input asp-for="ProductImageData" class="form-control" />
+            <span asp-validation-for="ProductImageData" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="CategoryName" class="control-label"></label>
+            <input asp-for="CategoryName" class="form-control" />
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="SubCategoryName" class="control-label"></label>
+            <input asp-for="SubCategoryName" class="form-control" />
+            <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="SizeName" class="control-label"></label>
+            <input asp-for="SizeName" class="form-control" />
+            <span asp-validation-for="SizeName" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+                </label>
+            </div>*@
+            @*<div class="form-group">
+            <label asp-for="CreatedBy" class="control-label"></label>
+            <input asp-for="CreatedBy" class="form-control" />
+            <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="CreatedDate" class="control-label"></label>
+            <input asp-for="CreatedDate" class="form-control" />
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="UpdatedBy" class="control-label"></label>
+            <input asp-for="UpdatedBy" class="form-control" />
+            <span asp-validation-for="UpdatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="UpdatedDate" class="control-label"></label>
+            <input asp-for="UpdatedDate" class="form-control" />
+            <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+
+        @* Profile Image*@
+        <div class=" col-md-6 offset-md-1">
+            <div class="form-group">
+                <label class="control-label">Profile Image</label>
+                <div class="custom-file col-md-12 text-center">
+                    @if (Model.ProductImageData != null)
+                    {
+                        <img id="product-image-preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProductImageData)" alt="" class="img-thumbnail" width="155" height="170" />
+                    }
+                    else
+                    {
+                        <img id="product-image-preview" src="~/Images/default-file.png" alt="" class="img-thumbnail" width="155" height="170" />
+                    }
+                </div>
+                <div class="custom-file custom-height col-md-12 text-center">
+                    <label class="btn btn-sm btn-primary">
+                        <i class="fa fa-fw fa-folder-open-o"></i> Browse
+                        @Html.TextBoxFor(model => model.ImageUrl, new { Type = "File", hidden = "hidden" })
+                    </label>
+                    <label id="clear-profile-image" class="btn btn-sm btn-danger">
+                        <i class="fa fa-fw fa-remove"></i> Clear
+                    </label>
+                    <span id="product-image-validtion" asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                @* product Image1*@
+                <div class="form-group row">
+                    <label class="control-label col-md-4">Product Image 1</label>
+                    <div class="custom-height col-md-4 text-center">
+                        <label class="btn btn-sm btn-primary">
+                            <i class="fa fa-fw fa-folder-open-o"></i> Browse
+                            @Html.TextBoxFor(model => model.Picture1, new { Type = "File", hidden = "hidden" })
+                        </label>
+                        <label id="clear-image1" class="btn btn-sm btn-danger">
+                            <i class="fa fa-fw fa-remove"></i> Clear
+                        </label>
+                    </div>
+                    <div class="custom-height col-md-2 mt-n-5">
+                        @if (Model.PictureData1 != null)
+                        {
+                            <img id="Picture1-preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.PictureData1)" alt="" class="img-thumbnail" width="40" height="50" />
+                        }
+                        else
+                        {
+                            <img id="Picture1-preview" src="~/Images/default-file.png" alt="" class="img-thumbnail" width="40" height="50" />
+                        }
+                    </div>
+                </div>
+
+                @* product Image2*@
+                <div class="form-group row">
+                    <label class="control-label col-md-4">Product Image 2</label>
+                    <div class="custom-height col-md-4 text-center">
+                        <label class="btn btn-sm btn-primary">
+                            <i class="fa fa-fw fa-folder-open-o"></i> Browse
+                            @Html.TextBoxFor(model => model.Picture2, new { Type = "File", hidden = "hidden" })
+                        </label>
+                        <label id="clear-image1" class="btn btn-sm btn-danger">
+                            <i class="fa fa-fw fa-remove"></i> Clear
+                        </label>
+                    </div>
+                    <div class="custom-height col-md-2 mt-n-5">
+                        @if (Model.PictureData2 != null)
+                        {
+                            <img id="Picture2-preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.PictureData2)" alt="" class="img-thumbnail" width="40" height="50" />
+                        }
+                        else
+                        {
+                            <img id="Picture2-preview" src="~/Images/default-file.png" alt="" class="img-thumbnail" width="40" height="50" />
+                        }
+                    </div>
+                </div>
+
+
+                @* product Image3*@
+                <div class="form-group row">
+                    <label class="control-label col-md-4">Product Image 3</label>
+                    <div class="custom-height col-md-4 text-center">
+                        <label class="btn btn-sm btn-primary">
+                            <i class="fa fa-fw fa-folder-open-o"></i> Browse
+                            @Html.TextBoxFor(model => model.Picture3, new { Type = "File", hidden = "hidden" })
+                        </label>
+                        <label id="clear-image3" class="btn btn-sm btn-danger">
+                            <i class="fa fa-fw fa-remove"></i> Clear
+                        </label>
+                    </div>
+                    <div class="custom-height col-md-2 mt-n-5">
+                        @if (Model.PictureData3 != null)
+                        {
+                            <img id="Picture3-preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.PictureData3)" alt="" class="img-thumbnail" width="40" height="50" />
+                        }
+                        else
+                        {
+                            <img id="Picture3-preview" src="~/Images/default-file.png" alt="" class="img-thumbnail" width="40" height="50" />
+                        }
+                    </div>
+                </div>
+
+
+                @* product Image4*@
+                <div class="form-group row">
+                    <label class="control-label col-md-4">Product Image 4</label>
+                    <div class="custom-height col-md-4 text-center">
+                        <label class="btn btn-sm btn-primary">
+                            <i class="fa fa-fw fa-folder-open-o"></i> Browse
+                            @Html.TextBoxFor(model => model.Picture4, new { Type = "File", hidden = "hidden" })
+                        </label>
+                        <label id="clear-image4" class="btn btn-sm btn-danger">
+                            <i class="fa fa-fw fa-remove"></i> Clear
+                        </label>
+                    </div>
+                    <div class="custom-height col-md-2 mt-n-5">
+                        @if (Model.PictureData4 != null)
+                        {
+                            <img id="Picture4-preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.PictureData4)" alt="" class="img-thumbnail" width="40" height="50" />
+                        }
+                        else
+                        {
+                            <img id="Picture4-preview" src="~/Images/default-file.png" alt="" class="img-thumbnail" width="40" height="50" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div>
+    <a asp-action="Index" class=" btn btn-outline-primary">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script src="~/js/pages/product.js"></script>

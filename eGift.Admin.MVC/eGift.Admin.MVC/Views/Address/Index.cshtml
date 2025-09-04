@@ -1,0 +1,86 @@
+﻿@model eGift.Admin.MVC.Models.ListViewModels.AddressListViewModel
+
+@{
+    ViewData["Title"] = "Address List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressModel.Street1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressModel.Street2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressModel.Pincode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressModel.CityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressModel.StateName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressModel.CountryName)
+            </th>
+            <th>
+                Action
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model?.AddressList?.Count() > 0)
+        {
+            @foreach (var item in Model.AddressList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Street1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Street2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pincode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StateName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CountryName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new {id=item.ID}, new {@class = "btn btn-success"}) |
+                        @Html.ActionLink("Details", "Details", new {id=item.ID}, new {@class = "btn btn-primary"}) |
+                        @Html.ActionLink("Delete", "Delete", new {id=item.ID}, new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="9" class="text-center">
+                    <span>No data found.</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,93 @@
+﻿@model eGift.Admin.MVC.Models.ViewModels.CustomerViewModel
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+<h4>@ViewData["Title"]</h4>
+<hr />
+
+<div class="row">
+    <div class="col-sm-6">
+
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.DateOfBirth)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Age)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Age)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.GenderId)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GenderId)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Mobile)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Mobile)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.RoleId)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.RoleId)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IsActive)
+            </dd>
+        </dl>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="fw-700 control-label">Profile Image</label>
+            <div class="custom-file-height custom-file col-sm-12">
+                @if (Model.ProfileImageData != null)
+                {
+                    <img id="profile-image-preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProfileImageData)" alt="" class="img-thumbnail" width="135" height="150" />
+                }
+                else
+                {
+                    <img id="profile-image-preview" src="~/images/default-file.png" alt="" class="img-thumbnail" width="135" height="150" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Edit", "Edit", new {id = Model.ID}, new{@class="btn btn-success"}) |
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+</div>
+<script src="~/js/pages/customer.js"></script>

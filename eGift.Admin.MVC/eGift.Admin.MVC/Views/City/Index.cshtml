@@ -1,0 +1,69 @@
+﻿@model eGift.Admin.MVC.Models.ListViewModels.CityListViewModel
+
+@{
+    ViewData["Title"] = "City List";
+}
+
+<h1> @ViewData["Title"] </h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityModel.CityCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityModel.CityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityModel.StateName)
+            </th>
+            <th>
+                Actions
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model?.CityList?.Count() > 0)
+        {
+        @foreach (var item in Model.CityList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CityCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StateName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new {id=item.ID}, new {@class = "btn btn-success"}) |
+                        @Html.ActionLink("Details", "Details", new {id=item.ID}, new {@class = "btn btn-primary"}) |
+                        @Html.ActionLink("Delete", "Delete", new {id=item.ID}, new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">
+                    <span>No data found.</span>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

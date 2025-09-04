@@ -1,0 +1,64 @@
+﻿@model eGift.Admin.MVC.Models.ListViewModels.CategoryListViewModel
+
+@{
+    ViewData["Title"] = "Category List";
+    var index = 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New Category</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryModel.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryModel.Description)
+            </th>
+            
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model?.CategoryList?.Count() > 0)
+        {
+            foreach (var item in Model.CategoryList)
+            {
+                index++;
+
+                <tr>
+                    <td>
+                        @index
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.ID }, new{@class="btn btn-success"}) |
+                        @Html.ActionLink("Details", "Details", new { id=item.ID }, new{@class="btn btn-primary"}) |
+                        @Html.ActionLink("Delete", "Delete", new {id=item.ID},new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+        <tr>
+                <td colspan="4" class="text-center">
+                    <span>No data found.</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

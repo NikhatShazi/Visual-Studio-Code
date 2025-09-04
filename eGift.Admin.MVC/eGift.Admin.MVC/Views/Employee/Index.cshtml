@@ -1,0 +1,102 @@
+﻿@model eGift.Admin.MVC.Models.ListViewModels.EmployeeListViewModel
+
+@{
+    ViewData["Title"] = "Employee List";
+    var index = 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.Mobile)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.RoleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.ProfileImagePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.IsActive)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.IsDefault)
+            </th>*@
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model?.EmployeeList?.Count() > 0)
+        {
+            foreach (var item in Model.EmployeeList)
+            {
+                index = index + 1;
+                <tr>
+                    <td>
+                        @index
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoleName)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProfileImagePath)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.IsDefault)
+                    </td>*@
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new {id=item.ID},new {@class = "btn btn-success"}) |
+                        @Html.ActionLink("Details", "Details", new {id=item.ID}, new {@class = "btn btn-primary"}) |
+                        @Html.ActionLink("Delete", "Delete", new {id=item.ID}, new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="9" class="text-center">
+                    <span>No data found.</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
