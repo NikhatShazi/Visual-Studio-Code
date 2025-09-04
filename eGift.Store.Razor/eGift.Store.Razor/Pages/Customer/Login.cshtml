@@ -1,0 +1,140 @@
+﻿@page
+@model eGift.Store.Razor.Pages.Customer.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+    ViewData["applicationName"] = "eGift.Admin.MVC";
+}
+@* <h2>@ViewData["Title"]</h2> *@
+<link href="~/css/pages/login.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css">
+
+
+<section vh="80">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="/images/draw2.webp"
+                     class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form asp-action="Login" method="post">
+                    <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                        <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+                        <button type="button" class="btn btn-primary btn-floating mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-primary btn-floating mx-1">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-primary btn-floating mx-1">
+                            <i class="fab fa-linkedin-in"></i>
+                        </button>
+                    </div>
+
+                    <div class="divider d-flex align-items-center my-4">
+                        <p class="text-center fw-bold mx-3 mb-0">Or</p>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="SigninViewModel.UserName" class="control-label"></label>
+                                <input asp-for="SigninViewModel.UserName" class="form-control" />
+                                <span asp-validation-for="SigninViewModel.UserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SigninViewModel.Password" class="control-label"></label>
+                                <input asp-for="SigninViewModel.Password" class="form-control" type="password" />
+                                <span asp-validation-for="SigninViewModel.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="SigninViewModel.RememberMe" /> @Html.DisplayNameFor(model => model.SigninViewModel.RememberMe)
+                                </label>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="#!" class="text-body">Forgot password?</a>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Login" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Copyright -->
+        <div class="text-white mb-3 mb-md-0">
+            Copyright © @DateTime.Now.Year.ToString(). All rights reserved.
+        </div>
+        <!-- Copyright -->
+        <!-- Right -->
+        <div>
+            <a href="#!" class="text-white me-4">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#!" class="text-white me-4">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#!" class="text-white me-4">
+                <i class="fab fa-google"></i>
+            </a>
+            <a href="#!" class="text-white">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </div>
+        <!-- Right -->
+    </div>
+</section>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/js/dist/mdb5/standard/core.min.js"></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+@*----Store Login--
+    <div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login" method="post" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SigninViewModel.UserName" class="control-label"></label>
+                <input asp-for="SigninViewModel.UserName" class="form-control" />
+                <span asp-validation-for="SigninViewModel.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SigninViewModel.Password" class="control-label"></label>
+                <input asp-for="SigninViewModel.Password" class="form-control" type="password"/>
+                <span asp-validation-for="SigninViewModel.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="SigninViewModel.RememberMe" /> @Html.DisplayNameFor(model => model.SigninViewModel.RememberMe)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="../Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@

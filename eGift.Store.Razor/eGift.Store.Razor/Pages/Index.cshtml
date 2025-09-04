@@ -1,0 +1,161 @@
+﻿@page
+@model IndexModel
+@using eGift.Store.Razor.Helpers
+@using eGift.Store.Razor.Models
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Home page";
+    string userName = HttpContextAccessor.HttpContext.Session.GetString("UserName");
+    ViewBag.Cart = HttpContextAccessor.HttpContext.Session.GetComplexData<List<AddToCartModel>>("AddToCartList");
+    var count = (ViewBag.Cart != null) ? ViewBag.Cart.Count : 0;
+}
+
+<link href="~/css/style.css" rel="stylesheet" />
+
+<div class="row @((count <= 0 ? "d-none" : ""))" id="add-to-cart">
+    <div class="col-md-12">
+        <div class="form-group">
+            <a class="btn btn-info col-md-2 float-right mr-4 mb-3" asp-page="/Orders/Create">CheckOut</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        @if (Model?.ProductList?.Count > 0)
+        {
+            @foreach (var item in Model.ProductList)
+            {
+                <div class="col-md-3">
+                    <div class="card">
+                        @if (item.ProductImageData != null)
+                        {
+                            <img id="product-image-preview" src="data:image/jpeg;base64,@Convert.ToBase64String(item.ProductImageData)" alt="" class="img-thumbnail" />
+                        }
+                        else
+                        {
+                            <img id="product-image-preview" src="~/images/default-file.png" alt="" class="img-thumbnail" />
+                        }
+                        <h2>@item.Name</h2>
+                        <p class="price">₹ @item.UnitPrice</p>
+                        <p class="description">@item.ShortDescription</p>
+
+                        @if (!String.IsNullOrWhiteSpace(userName))
+                        {
+                            <input class="quantity" type="number" value="@item.QuantityPerUnit" name="quantity" placeholder="Enter quantity" style="padding:4px; margin-bottom:5px">
+                            <p><button type="button" class="btn btn-outline-info add-to-card" data-id="@item.ID" onclick="">Add to Cart</button></p>
+
+                        }
+                        else
+                        {
+                            <p><button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#cart-login-modal" onclick="">Add to Cart</button></p>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="cart-login-modal" tabindex="-1" aria-labelledby="Modal-Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Modal-Label">Login</h5>
+                <button type="button" class="btn-outline-close " data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="username-textbox">Username:</label>
+                        <input asp-for="SigninViewModel.UserName" type="text" id="username-textbox" class="form-control form-control-lg"
+                               placeholder="Enter username" />
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-3">
+                        <label class="form-label" for="pass-textbox">Password:</label>
+                        <input asp-for="SigninViewModel.Password" type="password" id="password-textbox" class="form-control form-control-lg"
+                               placeholder="Enter password" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info" onclick="SaveLoginDetails()">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $(".add-to-card").click(function () {
+            var productId = $(this).data("id");
+            var quantity = $(this).parent().parent().find(".quantity").val();
+            if (quantity != "" && quantity != "undefined" && quantity > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Index?handler=AddToCart",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    data: { "productId": productId, "quantity": quantity },
+                    success: function (result) {
+                        if (result) {
+                            location.reload();
+                        }
+                        else {
+                            alert("Please login to add a product.");
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+            else {
+                //toastr.error("Saved Successfully!");
+                alert("Please select quantity!");
+            }
+        });
+    });
+
+
+    function SaveLoginDetails() {
+        var userName = $("#username-textbox").val();
+        var password = $("#password-textbox").val();
+
+        //input json
+        var input = {
+            //id: loginId,
+            userName: userName,
+            password: password,
+        };
+
+        $.ajax({
+            type: "GET",
+            url: "/Index?handler=GetLogin",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            data: input,
+            success: function (data) {
+                //toastr.success("Saved Successfully!");
+                //$("#cart-login-modal").modal("hide");
+                location.reload();
+            },
+            error: function (error) {
+                //var valmsgPrefix = "ProductModel.";
+                //alert("An error has occured!" + "ID=" + loginId + valmsgPrefix);
+                alert("An error has occured!");
+            }
+        });
+    }
+</script>

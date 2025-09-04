@@ -1,0 +1,114 @@
+﻿@page
+@model eGift.Store.Razor.Pages.Orders.DetailsModel
+@{
+    ViewData["Title"] = "Order Details";
+    var index = 0;
+}
+<form method="post">
+    <div class="row">
+        <div class="col-lg-2">
+            <h4>@ViewData["Title"]</h4>
+        </div>
+    </div>
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="OrderViewModel.OrderNumber" class="control-label font-weight-bold"></label><span class="font-weight-bold">&nbsp;:</span>
+        </div>
+        <div class="col-md-3">
+            @Model.OrderViewModel.OrderNumber
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="OrderViewModel.CustomerName" class="control-label font-weight-bold"></label><span class="font-weight-bold">&nbsp;:</span>
+        </div>
+        <div class="col-md-3">
+            @Model.OrderViewModel.CustomerName
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="OrderViewModel.Address" class="control-label font-weight-bold"></label><span class="font-weight-bold">&nbsp;:</span>
+        </div>
+        <div class="col-md-3">
+            @Model.OrderViewModel.Address
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="OrderViewModel.ContactNo" class="control-label font-weight-bold"></label><span class="font-weight-bold">&nbsp;:</span>
+        </div>
+        <div class="col-md-3">
+            @Model.OrderViewModel.ContactNo
+        </div>
+
+
+        <div class="col-md-3">
+            <label asp-for="OrderViewModel.StatusName" class="control-label font-weight-bold"></label><span class="font-weight-bold">&nbsp;:</span>
+        </div>
+        <div class="col-md-3">
+            @Model.OrderViewModel.StatusName
+        </div>
+    </div>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Discount</th>
+                <th>Tax</th>
+                <th>Net Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model?.OrderDetailsList?.Count > 0)
+            {
+                foreach (var item in Model.OrderDetailsList)
+                {
+                    index++;
+                    <tr>
+                        <th scope="row">@index</th>
+                        <td>@item.ProductName</td>
+                        <td>@item.UnitPrice</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Discount</td>
+                        <td>@item.Tax</td>
+                        <td>@item.NetAmount</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5"></td>
+                    <td><label asp-for="OrderViewModel.TotalDiscount" class="control-label font-weight-bold"></label></td>
+                    <td>@Model.OrderViewModel.TotalDiscount</td>
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td><label asp-for="OrderViewModel.TotalTax" class="control-label font-weight-bold"></label></td>
+                    <td>@Model.OrderViewModel.TotalTax</td>
+                </tr>
+                <tr>
+                    <td colspan="5"></td>
+                    <td><label asp-for="OrderViewModel.TotalAmount" class="control-label font-weight-bold"></label></td>
+                    <td>@Model.OrderViewModel.TotalAmount</td>
+                </tr>
+            }
+            else
+            {
+                <tr><td colspan="7" class="text-center">No product available.</td></tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<div>
+    <a asp-page="/Orders/Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

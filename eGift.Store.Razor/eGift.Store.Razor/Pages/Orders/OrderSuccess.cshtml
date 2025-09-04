@@ -1,0 +1,18 @@
+﻿@page
+@model eGift.Store.Razor.Pages.Orders.OrderSuccessModel
+@{
+    ViewData["Title"] = "Order Placed.";
+    ViewData["Message"] = "Congratulations, Your order is placed successfully!";
+}
+
+<div id="dvFilterSearch" style="margin-top:30px;">
+    <div class="mainServices clearfix">
+        <div class="container">
+            <div style="background-color:white;margin-top:40px;padding:30px">
+                <h2 style="margin:20px;text-align:center;font-weight:bold;color:green;">
+                    @ViewData["message"]
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>

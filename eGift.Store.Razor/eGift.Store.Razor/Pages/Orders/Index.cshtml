@@ -1,0 +1,154 @@
+﻿@page
+@using eGift.Store.Razor.Common;
+@using eGift.Store.Razor.Helpers;
+@model eGift.Store.Razor.Pages.Orders.IndexModel
+@{
+    int index = 0;
+    ViewData["Title"] = "My Orders";
+}
+<h4>@ViewBag.Title</h4>
+
+<p>
+    <a class="btn btn-info" asp-page="../Index">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            @* <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].CustomerId)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.OrderList[0].OrderNumber)
+            </th>
+            @* <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].TotalDiscount)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].TotalTax)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.OrderList[0].TotalAmount)
+            </th>
+            @*  <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].Notes)
+            </th>*@
+            @* <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].DispatchedDate)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].ShippedDate)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].DeliveryDate)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].CancelDate)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.OrderList[0].StatusId)
+            </th>
+            <th>Order Date</th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].IsDeleted)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].CreatedBy)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].CreatedDate)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].UpdatedBy)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.OrderModel[0].UpdatedDate)
+            </th>*@
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tbody>
+            @if (Model?.OrderList?.Count() > 0)
+            {
+                @foreach (var item in Model.OrderList)
+                {
+                    index += 1;
+                <tr>
+                    <td>@index</td>
+                        @*<td>
+            @Html.DisplayFor(modelItem => item.CustomerId)
+            </td>*@
+                    <td>
+                            @Html.DisplayFor(modelItem => item.OrderNumber)
+                    </td>
+                        @*  <td>
+            @Html.DisplayFor(modelItem => item.TotalDiscount)
+            </td>*@
+                        @* <td>
+            @Html.DisplayFor(modelItem => item.TotalTax)
+            </td>*@
+                    <td>
+                            @Html.DisplayFor(modelItem => item.TotalAmount)
+                    </td>
+                        @* <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+            </td>*@
+                        @*  <td>
+            @Html.DisplayFor(modelItem => item.DispatchedDate)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.ShippedDate)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.DeliveryDate)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.CancelDate)
+            </td>*@
+                    <td>
+                            @*@Html.DisplayFor(modelItem => item.StatusId)*@
+                            @(((Status)item.StatusId).ToString())
+                    </td>
+                        @* <td>
+            @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>*@
+                        @* <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>*@
+                    <td>
+                            @*@Html.DisplayFor(modelItem => item.CreatedDate)*@
+                            @DateTimeHelper.GetDateString(item.CreatedDate)
+                    </td>
+                        @* <td>
+            @Html.DisplayFor(modelItem => item.UpdatedBy)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>*@
+                    <td>
+                            @* <a asp-page="./Edit" asp-route-id="@item.ID" class="btn btn-info btn-sm text-white">Edit</a>*@
+                        <a asp-page="./Details" asp-route-id="@item.ID" class="btn btn-info btn-sm text-white">Details</a>
+                            @if (item.StatusId == (int)Status.New)
+                            {
+                            <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm text-white" onclick="return confirm('Are you sure to cancel this order?')">Cancel</a>
+                            }
+                            else if (item.StatusId == (int)Status.Cancelled)
+                            {
+                            <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm text-white disabled">Cancelled</a>
+                            }
+                            else
+                            {
+                            <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm text-white disabled">Cancel</a>
+                            }
+                    </td>
+
+                </tr>
+                }
+            }
+            else
+            {
+            <tr><td colspan="11" align="center">No record available.</td></tr>
+            }
+    </tbody>
+</table>
