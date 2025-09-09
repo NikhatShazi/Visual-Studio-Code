@@ -1,3 +1,5 @@
+using MyLibrary;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -32,21 +34,30 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
+    var forecast = Enumerable.Range(1, 5).Select(index =>
+    {
+        var date = CalculateDate(index);
+        return new WeatherForecast
         (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            date,
             Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
+            summaries[Random.Shared.Next(summaries.Length)],
+            WeatherCalculator.DetermineSeason(date)
+
+        );
+    })
+    .ToArray();
     return forecast;
 })
 .WithName("GetWeatherForecast");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+static DateOnly CalculateDate(int index)
+{
+    return DateOnly.FromDateTime(DateTime.Now.AddDays(index));
+}
+record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary, string season)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
