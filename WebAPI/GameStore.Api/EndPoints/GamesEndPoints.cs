@@ -1,5 +1,7 @@
 using System;
+using GameStore.Api.Data;
 using GameStore.Api.Dtos;
+using GameStore.Api.Entities;
 
 namespace GameStore.Api.EndPoints;
 
@@ -33,7 +35,7 @@ new (
     public static RouteGroupBuilder MapGamesEndPoints(this WebApplication app)
     {
         var group = app.MapGroup("/games")
-                    .WithParameterValidation(); 
+                    .WithParameterValidation();
         //GET /games
         group.MapGet("/", () => games);
 
@@ -41,17 +43,27 @@ new (
         group.MapGet("/{id}", (int id) => games.Find(g => g.Id == id)).WithName(GetGameEndpointName);
 
         //POST /games
-        group.MapPost("/", (CreateGameDto newGame) =>
+        group.MapPost("/", (CreateGameDto newGame, GameStoreContext dbContext) =>
         {
-            GameDto game = new(
-                games.Count + 1,
-                newGame.Name,
-                newGame.Genre,
-                newGame.Price,
-                newGame.ReleaseDate
+            Game game = new()
+            {
+                Name = newGame.Name,
+                Genre = dbContext.Genres.Find(newGame.GenreId), //?? throw new Exception("Genre not found"),
+                Price = newGame.Price,
+                ReleaseDate = newGame.ReleaseDate
+            };
+            dbContext.Games.Add(game);
+            dbContext.SaveChanges();
+
+            GameDto gameDto = new(
+                game.Id,
+                game.Name,
+                game.Genre!.Name, //Genre is not null because of the foreign key relationship
+                game.Price,
+                game.ReleaseDate
                 );
-            games.Add(game);
-            return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id }, game);
+
+            return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id }, gameDto);
         });
 
 
