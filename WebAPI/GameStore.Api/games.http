@@ -8,23 +8,23 @@ POST http://localhost:5291/games
 Content-Type: application/json
 
 {
-  "name": "Mario Kart 9",
+  "name": "Mario 1.1",
   "genreId": 5,
   "price": 61.99,
   "releaseDate": "2025-01-01"
 }
 
 ###
-PUT http://localhost:5291/games/3
+PUT http://localhost:5291/games/1
 Content-Type: application/json
 
 {
-  "id": 1,
-  "name": "Hill Sports",
+  "id":1,
+  "name": "Mario",
   "genreId": 5,
-  "price": 59.99,
-  "releaseDate": "2024-01-01"
+  "price": 61.99,
+  "releaseDate": "2025-01-01"
 }
 
 ###
-DELETE http://localhost:5291/games/8
+DELETE http://localhost:5291/games/1

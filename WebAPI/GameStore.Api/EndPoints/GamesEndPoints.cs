@@ -34,22 +34,31 @@ new (
     )
 ];
 
+    //MapGamesEndPoints is an Extension method for WebApplication class.
+    //So, we can call this method in Progrm.cs on WebApplication instance,as app.MapGamesEndPoints();
+    //It returns a RouteGroupBuilder, which is part of ASP.NET Core Minimal APIs.
     public static RouteGroupBuilder MapGamesEndPoints(this WebApplication app)
     {
+        //app.MapGroup("/games"), This creates a route group with the base path /games.
+        //.WithParameterValidation(),This is likely coming from the MinimalApis.Extensions library (or a similar package).
+        // It enables automatic parameter validation for your endpoints.
+
         var group = app.MapGroup("/games")
                     .WithParameterValidation();
+
         //GET /games
-        group.MapGet("/", (GameStoreContext dbContext) =>
-            dbContext.Games
+        group.MapGet("/", async(GameStoreContext dbContext) =>
+            await dbContext.Games
                 .Include(games => games.Genre)
                 .Select(game => game.ToGameSummaryDto())
                 .AsNoTracking()
+                .ToListAsync()
         );
 
         //GET /games/{id}
-        group.MapGet("/{id}", (int id, GameStoreContext dbContext) =>
+        group.MapGet("/{id}", async(int id, GameStoreContext dbContext) =>
         {
-            Game? game = dbContext.Games.Find(id); //It will find game in memory by primary key.
+            Game? game = await dbContext.Games.FindAsync(id); //It will find game in memory by primary key.
 
             return game is null ?
             Results.NotFound() : Results.Ok(game.ToGameDetailsDto());
@@ -58,21 +67,21 @@ new (
 
         //POST /games
         //Create dbContext instance, for taking advantage of Service Lifetime.
-        group.MapPost("/", (CreateGameDto newGame, GameStoreContext dbContext) =>
+        group.MapPost("/", async(CreateGameDto newGame, GameStoreContext dbContext) =>
         {
             Game game = newGame.ToEntity();
 
             dbContext.Games.Add(game);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id }, game.ToGameDetailsDto());
         });
 
 
         //PUT /games/{id}
-        group.MapPut("/{id}", (int id, UpdateGameDto updatedGame, GameStoreContext dbContext) =>
+        group.MapPut("/{id}", async(int id, UpdateGameDto updatedGame, GameStoreContext dbContext) =>
         {
-            var existingGame = dbContext.Games.Find(id);
+            var existingGame = await dbContext.Games.FindAsync(id);
             if (existingGame is null)
             {
                 return Results.NotFound();
@@ -80,16 +89,16 @@ new (
             dbContext.Entry(existingGame)
                      .CurrentValues
                      .SetValues(updatedGame.ToEntity(id));
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return Results.NoContent();
         });
 
         //DELETE /games/{id}
-        group.MapDelete("/{id}", (int id, GameStoreContext dbContext) =>
+        group.MapDelete("/{id}", async(int id, GameStoreContext dbContext) =>
         {
-            dbContext.Games.Where(game => game.Id == id)
-                           .ExecuteDelete();
+            await dbContext.Games.Where(game => game.Id == id)
+                           .ExecuteDeleteAsync();
             return Results.NoContent();
         });
         return group;
