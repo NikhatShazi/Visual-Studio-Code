@@ -1,8 +1,11 @@
 ﻿@page "/"
-@using GameStore.Frontend.Clients
-@using Models
+@inject GamesClients Client
 
 <PageTitle>Game Catalog</PageTitle>
+
+<div class="mt-2">
+<a href="/editgame" role="button" class="btn btn-primary" >Add New Game</a>
+</div>
 
 @if(games is null)
 {
@@ -36,12 +39,12 @@ else
     </table>
 }
 @code{
-    private GamesClients client = new();
+    //private GamesClients client = new();
     private GameSummary[]? games;
 
     //This method is called when the component has received parameres.
     protected override void OnInitialized() 
     {
-        games =  client.GetGames(); //Populate the games array.
+        games =  Client.GetGames(); //Populate the games array.
     }
 }
