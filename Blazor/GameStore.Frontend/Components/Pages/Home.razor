@@ -56,9 +56,9 @@ else
     private GameSummary[]? games;
 
     //This method is called when the component has received parameres.
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        games = Client.GetGames(); //Populate the games array.
+        games = await Client.GetGamesAsync(); //Populate the games array.
     }
 
     //Generate the URL for editing a game. Use this method at the href attribute of the Edit button.

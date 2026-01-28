@@ -6,8 +6,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-builder.Services.AddSingleton<GamesClients>();
-builder.Services.AddSingleton<GenresClient>();
+
+var gameStoreAPiUrl = builder.Configuration["GameStoreApiUrl"] ??
+throw new Exception("GameStoreApiUrl is not configured.");
+
+//Register HttpClient for GamesClients and GenresClient. To retrieve data from the API.
+builder.Services.AddHttpClient<GamesClients>(
+    client => client.BaseAddress = new Uri(gameStoreAPiUrl));
+
+builder.Services.AddHttpClient<GenresClient>(
+    client => client.BaseAddress = new Uri(gameStoreAPiUrl));
+//We added above lines so no need folloowin two lines.
+//builder.Services.AddSingleton<GamesClients>();
+//builder.Services.AddSingleton<GenresClient>();
 
 var app = builder.Build();
 

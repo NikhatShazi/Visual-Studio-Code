@@ -19,7 +19,7 @@ else
 {
     <div class="row">
         <div class="col-md-4">
-            <EditForm Model="@game" FormName="editGame" OnValidSubmit="HandleSubmit">
+            <EditForm Model="@game" FormName="editGame" OnValidSubmit="HandleSubmitAsync">
             <DataAnnotationsValidator />
             <ValidationSummary />
                 <div class="mb-3">
@@ -78,7 +78,7 @@ else
 
     private string title = string.Empty;
     
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         if(game is not null) 
         {
@@ -86,7 +86,7 @@ else
         }
         if(Id is not null)
         {
-            game = GamesClient.GetGameById(Id.Value);
+            game = await GamesClient.GetGameByIdAsync(Id.Value);
             title = $"Edit {game?.Name}";
         }
         else
@@ -101,22 +101,22 @@ else
     }
     
     // OnInitialized method to fetch genres when the component initializes.
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        genres = GenresClient.GetGenres(); //Populate the genres array.
+        genres = await GenresClient.GetGenresAsync(); //Populate the genres array.
     }
 
-    private void HandleSubmit() //This method will be called in EditForm tag on form submission.
+    private async Task HandleSubmitAsync() //This method will be called in EditForm tag on form submission.
     {
         ArgumentNullException.ThrowIfNull(game);
         if (Id is null)
         {
-            GamesClient.AddGame(game); // Add new game if Id is null.
+            await GamesClient.AddGameAsync(game); // Add new game if Id is null.
         }
         else
         {
             game.Id = Id.Value; // Ensure the game ID is set for updating.
-            GamesClient.UpdateGame(game); // Update existing game if Id is provided.
+            await GamesClient.UpdateGameAsync(game); // Update existing game.
         }
         NavigationManager.NavigateTo("/"); // Redirect to home page after submission.
     }

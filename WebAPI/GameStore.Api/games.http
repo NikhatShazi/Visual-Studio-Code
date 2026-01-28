@@ -1,28 +1,28 @@
 GET http://localhost:5291/games
 
 ###
-GET http://localhost:5291/games/1
+GET http://localhost:5291/games/3
 
 ###
 POST http://localhost:5291/games
 Content-Type: application/json
 
 {
-  "name": "Mario 1.1",
-  "genreId": 5,
-  "price": 61.99,
-  "releaseDate": "2025-01-01"
+  "name": "Road Rash",
+  "genreId": 4,
+  "price": 99.99,
+  "releaseDate": "2025-10-10"
 }
 
 ###
-PUT http://localhost:5291/games/1
+PUT http://localhost:5291/games/3
 Content-Type: application/json
 
 {
   "id":1,
-  "name": "Mario",
+  "name": "Hill Climbing",
   "genreId": 5,
-  "price": 61.99,
+  "price": 55.99,
   "releaseDate": "2025-01-01"
 }
 
