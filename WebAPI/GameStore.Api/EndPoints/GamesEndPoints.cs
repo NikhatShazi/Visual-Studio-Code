@@ -53,7 +53,7 @@ new (
                 .Include(games => games.Genre)
                 .Select(game => game.ToGameSummaryDto())
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync()
         );
 
         //GET /games/{id}
