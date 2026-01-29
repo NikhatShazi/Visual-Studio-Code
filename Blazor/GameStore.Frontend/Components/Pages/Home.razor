@@ -1,6 +1,6 @@
 ﻿@page "/"
 @inject GamesClients Client
-
+@attribute [StreamRendering] // This will render some html to the browser before the entire component (or table) is ready.
 <PageTitle>Game Catalog</PageTitle>
 
 <div class="mt-2">

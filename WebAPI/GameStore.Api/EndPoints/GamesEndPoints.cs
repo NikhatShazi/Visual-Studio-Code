@@ -48,12 +48,14 @@ new (
 
         //GET /games
         group.MapGet("/", async(GameStoreContext dbContext) =>
-            await dbContext.Games
+        {
+            await Task.Delay(3000); //Simulating a long running task.
+            return await dbContext.Games
                 .Include(games => games.Genre)
                 .Select(game => game.ToGameSummaryDto())
                 .AsNoTracking()
-                .ToListAsync()
-        );
+                .ToListAsync();
+        });
 
         //GET /games/{id}
         group.MapGet("/{id}", async(int id, GameStoreContext dbContext) =>
